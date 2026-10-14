@@ -7,7 +7,17 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Pomodoro Art</h1>
+  <div id="app">
+    <h1>Pomodoro Art</h1>
+    <div id="display">00:00</div>
+    <div id="controls">
+      <button id="btn-start">Start</button>
+      <button id="btn-pause" hidden>Pause</button>
+      <button id="btn-resume" hidden>Resume</button>
+      <button id="btn-reset" hidden>Reset</button>
+    </div>
+    <p id="done-msg" hidden>Done!</p>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
