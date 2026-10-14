@@ -150,21 +150,31 @@ function updateDisplay() {
   }
 }
 
+// Created on first Start click (must happen inside a user gesture).
+let audioCtx = null;
+
+function unlockAudio() {
+  try {
+    if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  } catch (_) { /* audio not available */ }
+}
+
 function playChime() {
   try {
-    const ctx  = new AudioContext();
-    const gain = ctx.createGain();
-    gain.connect(ctx.destination);
+    if (!audioCtx) return;
+    const gain = audioCtx.createGain();
+    gain.connect(audioCtx.destination);
     [523, 659, 784].forEach((hz, i) => {
-      const osc = ctx.createOscillator();
+      const osc = audioCtx.createOscillator();
       osc.type = 'sine';
       osc.frequency.value = hz;
       osc.connect(gain);
-      osc.start(ctx.currentTime + i * 0.18);
-      osc.stop(ctx.currentTime  + i * 0.18 + 0.3);
+      osc.start(audioCtx.currentTime + i * 0.18);
+      osc.stop(audioCtx.currentTime  + i * 0.18 + 0.3);
     });
-    gain.gain.setValueAtTime(0.4, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+    gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.9);
   } catch (_) { /* audio not available */ }
 }
 
@@ -197,6 +207,7 @@ function finish() {
 
 function start() {
   if (running) return; // guard against double-start
+  unlockAudio();
   running    = true;
   startedAt  = Date.now();
   startedOnce = true;
