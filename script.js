@@ -18,18 +18,29 @@ const btnTryAgain    = document.getElementById('btn-try-again');
 
 // ── Met Museum painting loader ────────────────────────────────────────────────
 
-// Cached list of highlighted painting IDs so we don't re-fetch on every reset.
-let highlightedIDs = null;
-
-async function fetchHighlightedIDs() {
-  if (highlightedIDs) return highlightedIDs;
-  const url = 'https://collectionapi.metmuseum.org/public/collection/v1/search' +
-              '?isHighlight=true&hasImages=true&q=painting';
-  const res = await fetch(url);
-  const data = await res.json();
-  highlightedIDs = data.objectIDs || [];
-  return highlightedIDs;
-}
+// 20 verified Met Museum paintings: public domain, confirmed to have images.
+const PAINTING_IDS = [
+  436535, // Wheat Field with Cypresses — Van Gogh
+  437394, // Aristotle with a Bust of Homer — Rembrandt
+  436105, // The Death of Socrates — Jacques Louis David
+  11417,  // Washington Crossing the Delaware — Emanuel Leutze
+  436524, // Sunflowers — Van Gogh
+  459055, // The Annunciation — Hans Memling
+  435809, // The Harvesters — Pieter Bruegel the Elder
+  438722, // The Potato Peeler — Van Gogh
+  436121, // A Woman Seated beside a Vase of Flowers — Degas
+  436532, // Self-Portrait with a Straw Hat — Van Gogh
+  437480, // The Swing — Hubert Robert
+  437998, // Olive Trees — Van Gogh
+  437654, // Circus Sideshow — Georges Seurat
+  436174, // A Woman Ironing — Edgar Degas
+  435882, // Still Life with Apples — Paul Cézanne
+  436944, // The Spanish Singer — Edouard Manet
+  11320,  // Salt Meadow in October — John Frederick Kensett
+  437005, // The Burial of Saint Wenceslas — Master of Eggenburg
+  436077, // Portrait of a Woman — Michael Dahl
+  437246, // Interior of Saint Peter's, Rome — Giovanni Paolo Panini
+];
 
 function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -43,23 +54,13 @@ async function loadPainting() {
   errorMsg.hidden      = true;
   loadingMsg.hidden    = false;
 
-  let ids;
-  try {
-    ids = await fetchHighlightedIDs();
-  } catch {
-    showError();
-    return;
-  }
-
-  if (!ids.length) { showError(); return; }
-
-  // Try up to 5 random picks.
+  // Try up to 5 random picks from the hardcoded list.
   const tried = new Set();
   for (let attempt = 0; attempt < 5; attempt++) {
     // Pick an ID we haven't tried yet.
     let id;
     let safety = 0;
-    do { id = pickRandom(ids); safety++; } while (tried.has(id) && safety < 20);
+    do { id = pickRandom(PAINTING_IDS); safety++; } while (tried.has(id) && safety < 20);
     tried.add(id);
 
     try {
