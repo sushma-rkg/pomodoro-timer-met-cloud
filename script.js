@@ -150,6 +150,24 @@ function updateDisplay() {
   }
 }
 
+function playChime() {
+  try {
+    const ctx  = new AudioContext();
+    const gain = ctx.createGain();
+    gain.connect(ctx.destination);
+    [523, 659, 784].forEach((hz, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = hz;
+      osc.connect(gain);
+      osc.start(ctx.currentTime + i * 0.18);
+      osc.stop(ctx.currentTime  + i * 0.18 + 0.3);
+    });
+    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+  } catch (_) { /* audio not available */ }
+}
+
 function finish() {
   clearInterval(tickInterval);
   running = false;
@@ -165,8 +183,16 @@ function finish() {
   infoYear.textContent   = currentMeta.year;
   infoLink.href          = currentMeta.url;
   artInfo.hidden         = false;
-  // Trigger fade-in on the next paint cycle.
   requestAnimationFrame(() => artInfo.classList.add('visible'));
+
+  playChime();
+
+  if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+    new Notification('Time\'s up!', {
+      body: `Your painting is revealed: ${currentMeta.title}`,
+      icon: currentMeta.url,
+    });
+  }
 }
 
 function start() {
