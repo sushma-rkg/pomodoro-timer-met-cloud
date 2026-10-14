@@ -22,9 +22,34 @@ body {
   width: 400px;
   height: 300px;
   object-fit: cover;
-  filter: blur(20px);
-  transform: scale(1.1); /* compensates for blur shrinking visible edge pixels */
-  transition: filter 0.5s linear;
+}
+
+#painting-title {
+  font-size: 1rem;
+  margin: 0.25rem 0 1rem;
+  font-style: italic;
+}
+
+#loading-msg {
+  width: 400px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+#error-msg {
+  width: 400px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #c00;
 }
 
 #display {

@@ -10,8 +10,14 @@
   <div id="app">
     <h1>Pomodoro Art</h1>
     <div id="painting-frame">
-      <img id="painting" src="placeholder.png" alt="painting">
+      <p id="loading-msg">Loading…</p>
+      <img id="painting" src="" alt="painting" hidden>
+      <div id="error-msg" hidden>
+        <p>Couldn't load a painting. Please try again.</p>
+        <button id="btn-try-again">Try again</button>
+      </div>
     </div>
+    <p id="painting-title"></p>
     <div id="display">00:00</div>
     <div id="controls">
       <button id="btn-start">Start</button>
