@@ -56,6 +56,7 @@ function pickRandom(arr) {
 
 async function loadPainting() {
   // Reset to loading state.
+  btnStart.disabled    = true;
   painting.hidden      = true;
   painting.src         = '';
   paintingTitle.textContent = '';
@@ -92,6 +93,7 @@ async function loadPainting() {
       setBlur(remainingAtPause);   // blur BEFORE revealing
       loadingMsg.hidden = true;
       painting.hidden   = false;
+      btnStart.disabled = false;
       return;
     } catch {
       // This pick failed; try the next one.
@@ -209,6 +211,7 @@ function reset() {
   btnReset.hidden  = true;
   artInfo.hidden        = true;
   artInfo.classList.remove('visible');
+  loadPainting();
 }
 
 // Initialise display
