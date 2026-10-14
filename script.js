@@ -75,6 +75,7 @@ async function loadPainting() {
         painting.onerror = reject;
       });
       paintingTitle.textContent = obj.title || 'Untitled';
+      setBlur(remainingAtPause); // start fully blurred
       loadingMsg.hidden = true;
       painting.hidden   = false;
       return;
