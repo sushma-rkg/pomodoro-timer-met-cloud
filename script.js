@@ -75,9 +75,9 @@ async function loadPainting() {
         painting.onerror = reject;
       });
       paintingTitle.textContent = obj.title || 'Untitled';
+      setBlur(remainingAtPause);   // blur BEFORE revealing
       loadingMsg.hidden = true;
       painting.hidden   = false;
-      setBlur(remainingAtPause);
       return;
     } catch {
       // This pick failed; try the next one.
