@@ -10,6 +10,15 @@ const btnPause  = document.getElementById('btn-pause');
 const btnResume = document.getElementById('btn-resume');
 const btnReset  = document.getElementById('btn-reset');
 const doneMsg   = document.getElementById('done-msg');
+const painting  = document.getElementById('painting');
+
+const MAX_BLUR = 20; // pixels of blur at the start
+
+function setBlur(secondsRemaining) {
+  // blur shrinks in proportion to how much time is left
+  const fraction = secondsRemaining / TIMER_SECONDS; // 1 = full blur, 0 = sharp
+  painting.style.filter = `blur(${(MAX_BLUR * fraction).toFixed(2)}px)`;
+}
 
 let running       = false;  // is the timer ticking right now?
 let startedOnce   = false;  // has it ever been started?
@@ -32,6 +41,7 @@ function secondsLeft() {
 function updateDisplay() {
   const left = secondsLeft();
   display.textContent = formatTime(Math.ceil(left));
+  setBlur(left);
 
   if (left <= 0 && running) {
     finish();
@@ -42,6 +52,7 @@ function finish() {
   clearInterval(tickInterval);
   running = false;
   display.textContent = formatTime(0);
+  setBlur(0); // fully sharp
   btnPause.hidden  = true;
   btnResume.hidden = true;
   btnReset.hidden  = true;
@@ -82,6 +93,7 @@ function reset() {
   startedOnce      = false;
   remainingAtPause = TIMER_SECONDS;
   display.textContent = formatTime(TIMER_SECONDS);
+  setBlur(TIMER_SECONDS); // back to full blur
   doneMsg.hidden   = true;
   btnStart.hidden  = false;
   btnPause.hidden  = true;
@@ -89,8 +101,9 @@ function reset() {
   btnReset.hidden  = true;
 }
 
-// Initialise display
+// Initialise display and blur
 display.textContent = formatTime(TIMER_SECONDS);
+setBlur(TIMER_SECONDS);
 
 btnStart.addEventListener('click', start);
 btnPause.addEventListener('click', pause);

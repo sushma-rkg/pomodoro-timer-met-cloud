@@ -11,6 +11,22 @@ body {
   text-align: center;
 }
 
+#painting-frame {
+  display: inline-block;
+  overflow: hidden; /* clips blur so edges stay clean */
+  margin-bottom: 1rem;
+}
+
+#painting {
+  display: block;
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+  filter: blur(20px);
+  transform: scale(1.1); /* compensates for blur shrinking visible edge pixels */
+  transition: filter 0.5s linear;
+}
+
 #display {
   font-size: 4rem;
   margin: 1rem 0;
