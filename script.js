@@ -15,6 +15,14 @@ const paintingTitle  = document.getElementById('painting-title');
 const loadingMsg     = document.getElementById('loading-msg');
 const errorMsg       = document.getElementById('error-msg');
 const btnTryAgain    = document.getElementById('btn-try-again');
+const artInfo        = document.getElementById('art-info');
+const infoTitle      = document.getElementById('info-title');
+const infoArtist     = document.getElementById('info-artist');
+const infoYear       = document.getElementById('info-year');
+const infoLink       = document.getElementById('info-link');
+
+// Metadata for the current painting, filled when it loads.
+let currentMeta = { title: '', artist: '', year: '', url: '' };
 
 // ── Met Museum painting loader ────────────────────────────────────────────────
 
@@ -74,7 +82,13 @@ async function loadPainting() {
         painting.onload  = resolve;
         painting.onerror = reject;
       });
-      paintingTitle.textContent = obj.title || 'Untitled';
+      currentMeta = {
+        title:  obj.title || 'Untitled',
+        artist: obj.artistDisplayName || 'Unknown artist',
+        year:   obj.objectDate || '',
+        url:    obj.objectURL  || 'https://www.metmuseum.org',
+      };
+      paintingTitle.textContent = currentMeta.title;
       setBlur(remainingAtPause);   // blur BEFORE revealing
       loadingMsg.hidden = true;
       painting.hidden   = false;
@@ -143,6 +157,14 @@ function finish() {
   btnResume.hidden = true;
   btnReset.hidden  = true;
   doneMsg.hidden   = false;
+
+  infoTitle.textContent  = currentMeta.title;
+  infoArtist.textContent = currentMeta.artist;
+  infoYear.textContent   = currentMeta.year;
+  infoLink.href          = currentMeta.url;
+  artInfo.hidden         = false;
+  // Trigger fade-in on the next paint cycle.
+  requestAnimationFrame(() => artInfo.classList.add('visible'));
 }
 
 function start() {
@@ -185,6 +207,8 @@ function reset() {
   btnPause.hidden  = true;
   btnResume.hidden = true;
   btnReset.hidden  = true;
+  artInfo.hidden        = true;
+  artInfo.classList.remove('visible');
 }
 
 // Initialise display

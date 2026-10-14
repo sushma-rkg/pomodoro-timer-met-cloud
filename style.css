@@ -58,6 +58,39 @@ body {
   color: #c00;
 }
 
+#art-info {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1rem 1.5rem;
+  margin: 0.5rem auto 1rem;
+  max-width: 400px;
+  text-align: left;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#art-info.visible {
+  opacity: 1;
+}
+
+#art-info p {
+  margin: 0.25rem 0;
+}
+
+#info-title  { font-weight: bold; }
+#info-artist { color: #444; }
+#info-year   { color: #888; font-size: 0.9rem; }
+
+#info-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #b5162f; /* Met Museum red */
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+#info-link:hover { text-decoration: underline; }
+
 #display {
   font-size: 4rem;
   margin: 1rem 0;
