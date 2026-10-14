@@ -24,7 +24,7 @@ let highlightedIDs = null;
 async function fetchHighlightedIDs() {
   if (highlightedIDs) return highlightedIDs;
   const url = 'https://collectionapi.metmuseum.org/public/collection/v1/search' +
-              '?isHighlight=true&hasImages=true&medium=Paintings&q=painting';
+              '?isHighlight=true&hasImages=true&q=painting';
   const res = await fetch(url);
   const data = await res.json();
   highlightedIDs = data.objectIDs || [];
