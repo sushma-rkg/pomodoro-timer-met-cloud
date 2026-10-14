@@ -4,7 +4,8 @@
 - Before writing code for any step, tell me your plan in 5 to 7 simple bullets and wait for me to say "go".
 - When a step is done, STOP. Tell me what you changed, exactly what I should see on screen to check it works, and wait for my next instruction.
 - Do not add placeholder code for future features.
-- After each completed step, commit with a clear message and push to your working branch. Never push to main without my approval.
+- Never push to main and never switch to main. Do not merge branches yourself. I merge pull requests myself on GitHub. If I ask you to do something on main, treat it as a single action, then return to your working branch and tell me which branch you are on. 
+- Before every commit and push, state which branch you are on. If it is main, stop and ask me.
 
 # Project
 A Pomodoro timer website. A painting from the Met Museum starts blurred and gets clearer as the timer runs. When the timer hits zero, the painting is fully sharp and the page shows the painter, the year, and a link to the Met Museum's page for that painting.
